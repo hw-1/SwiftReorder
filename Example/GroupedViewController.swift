@@ -26,8 +26,8 @@ import SwiftReorder
 class GroupedViewController: UITableViewController {
     
     var sectionedItems: [(title: String, items: [String])] = [
-        ("Foo", (1...5).map { "Foo \($0)" }),
-        ("Bar", (1...5).map { "Bar \($0)" })
+        ("Foo", (1...15).map { "Foo \($0)" }),
+        ("Bar", (1...25).map { "Bar \($0)" })
     ]
     
     required init?(coder aDecoder: NSCoder) {

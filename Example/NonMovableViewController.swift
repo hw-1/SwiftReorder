@@ -26,9 +26,9 @@ import SwiftReorder
 class NonMovableViewController: UITableViewController {
     
     var sectionedItems: [(title: String, items: [String])] = [
-        ("Movable", (1...3).map { "Spam \($0)" }),
-        ("Not Movable", (1...3).map { "Ham \($0)" }),
-        ("Movable", (1...3).map { "Eggs \($0)" })
+        ("Movable", (1...13).map { "Spam \($0)" }),
+        ("Not Movable", (1...13).map { "Ham \($0)" }),
+        ("Movable", (1...13).map { "Eggs \($0)" })
     ]
     
     required init?(coder aDecoder: NSCoder) {

@@ -40,12 +40,14 @@ extension ReorderController {
             newDestinationRow != context.destinationRow
         else { return }
         
+         print("proposedNewDestinationRow \(proposedNewDestinationRow)")
+        
         var newContext = context
         newContext.destinationRow = newDestinationRow
         reorderState = .reordering(context: newContext)
-        
+         
         delegate?.tableView(tableView, reorderRowAt: context.destinationRow, to: newContext.destinationRow)
-        
+ 
         tableView.beginUpdates()
         tableView.deleteRows(at: [context.destinationRow], with: .fade)
         tableView.insertRows(at: [newContext.destinationRow], with: .fade)
@@ -58,9 +60,14 @@ extension ReorderController {
             let superview = tableView.superview,
             let snapshotView = snapshotView
         else { return nil }
+ 
         
         let snapshotFrameInSuperview = CGRect(center: snapshotView.center, size: snapshotView.bounds.size)
         let snapshotFrame = superview.convert(snapshotFrameInSuperview, to: tableView)
+        
+        if  let indexPath = tableView.indexPathForRow(at: CGPoint(x: snapshotView.center.x, y: snapshotView.center.y  + tableView.contentOffset.y)) {
+             return indexPath
+        } else { return nil }
         
         let visibleCells = tableView.visibleCells.filter {
             // Workaround for an iOS 11 bug.
