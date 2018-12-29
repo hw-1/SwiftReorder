@@ -32,12 +32,11 @@ extension ReorderController {
         switch gestureRecognizer.state {
         case .began:
             beginReorder(touchPosition: touchPosition)
-            
         case .changed:
             updateReorder(touchPosition: touchPosition)
-            
         case .ended, .cancelled, .failed, .possible:
-            endReorder()
+            endReorder(touchPosition: touchPosition)
+
         }
     }
     
