@@ -203,7 +203,7 @@ public class ReorderController: NSObject {
     var autoScrollDisplayLink: CADisplayLink?
     var lastAutoScrollTimeStamp: CFTimeInterval?
     
-    lazy var reorderGestureRecognizer: UILongPressGestureRecognizer = {
+     public lazy var reorderGestureRecognizer: UILongPressGestureRecognizer = {
         let gestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleReorderGesture))
         gestureRecognizer.delegate = self
         gestureRecognizer.minimumPressDuration = self.longPressDuration

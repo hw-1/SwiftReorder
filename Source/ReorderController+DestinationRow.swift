@@ -40,7 +40,7 @@ extension ReorderController {
             newDestinationRow != context.destinationRow
         else { return }
         
-         print("proposedNewDestinationRow \(proposedNewDestinationRow)")
+//         print("proposedNewDestinationRow \(proposedNewDestinationRow)")
         
         var newContext = context
         newContext.destinationRow = newDestinationRow
