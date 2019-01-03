@@ -32,12 +32,11 @@ extension ReorderController {
         switch gestureRecognizer.state {
         case .began:
             beginReorder(touchPosition: touchPosition)
-            
         case .changed:
             updateReorder(touchPosition: touchPosition)
-            
         case .ended, .cancelled, .failed, .possible:
-            endReorder()
+            endReorder(touchPosition: touchPosition)
+
         }
     }
     
@@ -50,6 +49,10 @@ extension ReorderController: UIGestureRecognizerDelegate {
         
         let gestureLocation = gestureRecognizer.location(in: tableView)
         guard let indexPath = tableView.indexPathForRow(at: gestureLocation) else { return false }
+        let rect =  tableView.rectForRow(at: indexPath)
+        guard  rect.contains(gestureLocation) else {
+            return false
+        }
         
         return delegate?.tableView(tableView, canReorderRowAt: indexPath) ?? true
     }

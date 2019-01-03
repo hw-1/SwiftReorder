@@ -80,6 +80,9 @@ public protocol TableViewReorderDelegate: class {
      */
     func tableViewDidFinishReordering(_ tableView: UITableView, from initialSourceIndexPath: IndexPath, to finalDestinationIndexPath: IndexPath)
     
+    
+    func tableViewDidFinishReordering(_ tableView: UITableView, from initialSourceIndexPath: IndexPath,  inside touchUpInside:Bool)
+    
 }
 
 public extension TableViewReorderDelegate {
@@ -96,6 +99,9 @@ public extension TableViewReorderDelegate {
     }
     
     func tableViewDidFinishReordering(_ tableView: UITableView, from initialSourceIndexPath: IndexPath, to finalDestinationIndexPath:IndexPath) {
+    }
+    
+    func tableViewDidFinishReordering(_ tableView: UITableView, from initialSourceIndexPath: IndexPath,  inside touchUpInside:Bool){
     }
     
 }
@@ -155,6 +161,10 @@ public class ReorderController: NSObject {
     
     /// Whether or not autoscrolling is enabled
     public var autoScrollEnabled = true
+    
+    public var touchMoved = false
+    
+    public var touchPosition:CGPoint = .zero
     
     /**
      Returns a `UITableViewCell` if the table view should display a spacer cell at the given index path.
@@ -231,6 +241,7 @@ public class ReorderController: NSObject {
         else { return }
         
         let tableTouchPosition = superview.convert(touchPosition, to: tableView)
+         self.touchPosition = tableTouchPosition
         
         guard let sourceRow = tableView.indexPathForRow(at: tableTouchPosition),
             delegate.tableView(tableView, canReorderRowAt: sourceRow)
@@ -266,7 +277,7 @@ public class ReorderController: NSObject {
         updateDestinationRow()
     }
     
-    func endReorder() {
+    func endReorder(touchPosition: CGPoint) {
         guard case .reordering(let context) = reorderState,
             let tableView = tableView,
             let superview = tableView.superview
@@ -284,6 +295,8 @@ public class ReorderController: NSObject {
             snapshotView?.center.y += 0.1
         }
         
+        let tableTouchPosition = superview.convert(touchPosition, to: tableView)
+        
         UIView.animate(withDuration: animationDuration,
             animations: {
                 self.snapshotView?.center = CGPoint(x: cellRect.midX, y: cellRect.midY)
@@ -296,12 +309,20 @@ public class ReorderController: NSObject {
                     }
                     self.removeSnapshotView()
                 }
+                
+                if  fabsf(Float(self.touchPosition.x - tableTouchPosition.x) )  < 5 &&
+                    fabsf(Float(self.touchPosition.y - tableTouchPosition.y) )  < 5{
+//                    self.delegate?.tableViewDidFinishReordering
+                }else{
+                    
+                }
             }
         )
         animateSnapshotViewOut()
         clearAutoScrollDisplayLink()
         
         delegate?.tableViewDidFinishReordering(tableView, from: context.sourceRow, to: context.destinationRow)
+        
     }
     
     // MARK: - Spacer cell
