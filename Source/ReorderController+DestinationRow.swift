@@ -65,7 +65,7 @@ extension ReorderController {
         let snapshotFrameInSuperview = CGRect(center: snapshotView.center, size: snapshotView.bounds.size)
         let snapshotFrame = superview.convert(snapshotFrameInSuperview, to: tableView)
         
-        if  let indexPath = tableView.indexPathForRow(at: CGPoint(x: snapshotView.center.x, y: snapshotView.center.y  + tableView.contentOffset.y)) {
+        if  let indexPath = tableView.indexPathForRow(at: CGPoint(x: snapshotView.center.x, y: snapshotView.center.y  + tableView.contentOffset.y - tableView.frame.origin.y )) {
              return indexPath
         } else { return nil }
         
