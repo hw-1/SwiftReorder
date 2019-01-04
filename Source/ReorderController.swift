@@ -312,9 +312,9 @@ public class ReorderController: NSObject {
                 
                 if  fabsf(Float(self.touchPosition.x - tableTouchPosition.x) )  < 5 &&
                     fabsf(Float(self.touchPosition.y - tableTouchPosition.y) )  < 5{
-//                    self.delegate?.tableViewDidFinishReordering
+                    self.delegate?.tableViewDidFinishReordering(tableView, from: context.sourceRow, inside: true)
                 }else{
-                    
+                    self.delegate?.tableViewDidFinishReordering(tableView, from: context.sourceRow, inside: false)
                 }
             }
         )
