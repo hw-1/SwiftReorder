@@ -251,7 +251,7 @@ public class ReorderController: NSObject {
         animateSnapshotViewIn()
         activateAutoScrollDisplayLink()
         
-//        tableView.reloadData()
+        self.tableView?.reloadData()
         
         let snapshotOffset = (snapshotView?.center.y ?? 0) - touchPosition.y
         
